@@ -1,0 +1,29 @@
+.accepted {
+    background-color: #E0FDEC;
+}
+
+.error {
+    background-color: #F77D7D;
+}
+
+.alert {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #252525;
+    padding: 16px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 257px;
+    height: 24px;
+    margin-bottom: 10px;
+    font-family: 'SF UI Text';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: 0.1px;
+    border-radius: 15px;
+}
