@@ -293,7 +293,11 @@ export default function MyLists({ onRequestAuth }) {
 
               <ul className={styles.items}>
                 {items.map((item) => (
-                  <li key={item.id} className={item.isDone ? styles.itemDone : styles.itemRow}>
+                  <li
+                    key={item.id}
+                    data-testid="list-item"
+                    className={item.isDone ? styles.itemDone : styles.itemRow}
+                  >
                     <input
                       type="checkbox"
                       checked={item.isDone}
@@ -304,6 +308,8 @@ export default function MyLists({ onRequestAuth }) {
                       <img className={styles.itemCover} src={fileUrl(item.coverImage)} alt="" />
                     )}
                     <input
+                      key={`${item.id}:${item.title}`}
+                      data-testid="item-title"
                       className={styles.itemTitle}
                       defaultValue={item.title}
                       onBlur={(e) => renameItem(item, e.target.value)}

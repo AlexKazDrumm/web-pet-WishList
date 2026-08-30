@@ -8,10 +8,19 @@ const NavLink = ({ iconWhite, iconBlue, label, onClick, isActive }) => {
 
   return (
     <div
+      role="button"
+      tabIndex={0}
+      aria-pressed={isActive}
       className={isActive ? `${styles.link} ${styles.active}` : styles.link}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       <img src={iconSrc} alt="" style={{ marginRight: '10px' }} />
       {label}
