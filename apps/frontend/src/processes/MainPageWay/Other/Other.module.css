@@ -1,0 +1,11 @@
+.component {
+    width: 80%;
+    margin: 0 auto;
+    padding: 24px 5px;
+}
+
+@media (max-width: 900px) {
+    .component {
+        width: 94%;
+    }
+}

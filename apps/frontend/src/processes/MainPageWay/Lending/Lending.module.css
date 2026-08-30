@@ -1,0 +1,80 @@
+.component {
+    width: 80%;
+    margin: 0 auto;
+    padding: 32px 5px 48px;
+}
+
+.hero {
+    text-align: center;
+    padding: 32px 16px 40px;
+}
+
+.title {
+    font-family: 'Gotham Bold', sans-serif;
+    font-size: 34px;
+    color: #285471;
+    margin: 0 0 12px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #5c6368;
+    max-width: 620px;
+    margin: 0 auto 24px;
+    line-height: 1.5;
+}
+
+.cta {
+    background-color: #9cb047;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-family: 'Gotham Medium', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cta:hover {
+    background-color: #059fdc;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.feature {
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 18px 20px;
+    background-color: #fff;
+}
+
+.feature h3 {
+    margin: 0 0 8px;
+    color: #fff;
+    background-color: #9cb047;
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-size: 16px;
+    display: inline-block;
+}
+
+.feature p {
+    margin: 0;
+    font-size: 14px;
+    color: #5c6368;
+    line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+    .component {
+        width: 94%;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+}
