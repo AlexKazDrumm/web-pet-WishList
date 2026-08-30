@@ -11,6 +11,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
     "migrate": "node-pg-migrate up --migrations-dir src/db/migrations --envPath ../../.env",
+    "migrate:prod": "node-pg-migrate up --migrations-dir src/db/migrations",
     "migrate:down": "node-pg-migrate down --migrations-dir src/db/migrations --envPath ../../.env",
     "migrate:create": "node-pg-migrate create --migrations-dir src/db/migrations --migration-file-language sql",
     "seed": "tsx src/db/seed.ts",
@@ -27,6 +28,7 @@
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.0",
+    "node-pg-migrate": "^9.0.0",
     "pg": "^8.13.1",
     "pino": "^9.6.0",
     "pino-http": "^10.4.0",
@@ -42,12 +44,11 @@
     "@types/supertest": "^6.0.2",
     "@eslint/js": "^9.18.0",
     "eslint": "^9.18.0",
-    "node-pg-migrate": "^7.9.0",
     "typescript-eslint": "^8.20.0",
     "pino-pretty": "^13.0.0",
     "supertest": "^7.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
-    "vitest": "^2.1.8"
+    "vitest": "^4.1.11"
   }
 }
