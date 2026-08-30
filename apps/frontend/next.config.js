@@ -10,6 +10,7 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  agentRules: false,
   output: 'standalone',
   outputFileTracingRoot: require('path').join(__dirname, '../../'),
   transpilePackages: ['@wishlist/shared'],
