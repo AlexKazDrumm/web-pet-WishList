@@ -1,0 +1,29 @@
+.component {
+    width: 80%;
+    margin-left: 10%;
+    padding: 16px 5px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.filters select {
+    border: 1px solid #bdc0b6;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    background-color: #fff;
+}
+
+@media (max-width: 900px) {
+    .component {
+        width: 94%;
+        margin-left: 3%;
+    }
+}

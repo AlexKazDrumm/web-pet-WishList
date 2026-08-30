@@ -1,0 +1,26 @@
+.container {
+    background-color: #d1d4d2;
+    min-height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    border-bottom: 3px solid white;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 80%;
+    gap: 4px;
+}
+
+@media (max-width: 900px) {
+    .links {
+        width: 96%;
+    }
+}

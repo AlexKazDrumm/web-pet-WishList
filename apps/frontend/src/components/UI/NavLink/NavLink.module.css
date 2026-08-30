@@ -1,0 +1,41 @@
+.link {
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #285471;
+    font-family: 'Gotham Bold', sans-serif;
+    cursor: pointer;
+    height: 40px;
+    border: 2px solid #d1d4d2;
+    border-bottom: none;
+    width: 200px;
+    max-width: 40vw;
+    border-radius: 10px 10px 0px 0px;
+    transition: background-color 0.3s;
+    background-color: #efefef;
+}
+
+.link:hover {
+    color: white;
+    background-color: #9cb047;
+}
+
+.link.active {
+    color: white;
+    background-color: #9cb047;
+}
+
+@media (max-width: 900px) {
+    .link {
+        font-size: 14px;
+        width: 150px;
+        height: 36px;
+    }
+
+    .link img {
+        display: none;
+    }
+}

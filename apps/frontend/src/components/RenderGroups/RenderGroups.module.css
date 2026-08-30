@@ -1,0 +1,95 @@
+.component {
+    width: 80%;
+    margin-left: 10%;
+    padding: 10px 5px;
+}
+
+.groupBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid black;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.groupTitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #9cb047;
+    border-radius: 15px 15px 0px 0px;
+    padding: 5px 0px;
+    font-size: 20px;
+    color: white;
+}
+
+.groupDescription {
+    padding: 5px;
+}
+
+.wishesBlock {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 10px;
+}
+
+.wish {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid black;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.wishTitle {
+    padding: 6px 8px;
+    font-family: 'Gotham Medium', sans-serif;
+}
+
+.wishImg {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #f4ede6;
+}
+
+.wishImg img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.noCover {
+    font-size: 13px;
+    color: #9aa0a6;
+}
+
+.players,
+.prices {
+    padding: 2px 8px;
+    word-break: break-word;
+}
+
+.prices a {
+    display: inline-block;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+}
+
+@media (max-width: 900px) {
+    .component {
+        width: 94%;
+        margin-left: 3%;
+    }
+}

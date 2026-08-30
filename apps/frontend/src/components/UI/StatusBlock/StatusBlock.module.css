@@ -1,0 +1,66 @@
+.block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	gap: 8px;
+	padding: 28px 20px;
+	margin: 12px 0;
+	border: 1px dashed #bdc0b6;
+	border-radius: 15px;
+	background-color: #ffffff;
+	font-family: 'Gotham Regular', sans-serif;
+	color: #285471;
+}
+
+.error {
+	border-color: #f77d7d;
+	background-color: #fff5f5;
+}
+
+.empty {
+	border-style: dashed;
+}
+
+.heading {
+	font-family: 'Gotham Bold', sans-serif;
+	font-size: 16px;
+}
+
+.message {
+	font-size: 13px;
+	color: #6a7075;
+	max-width: 360px;
+}
+
+.action {
+	margin-top: 6px;
+	background-color: #9cb047;
+	color: #fff;
+	border: none;
+	border-radius: 10px;
+	padding: 8px 16px;
+	font-family: 'Gotham Medium', sans-serif;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.action:hover {
+	background-color: #059fdc;
+}
+
+.spinner {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	border: 3px solid #d1d4d2;
+	border-top-color: #9cb047;
+	animation: statusblock-spin 0.8s linear infinite;
+}
+
+@keyframes statusblock-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
