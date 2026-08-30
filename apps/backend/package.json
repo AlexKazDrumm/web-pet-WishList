@@ -1,0 +1,53 @@
+{
+  "name": "@wishlist/backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WishList API: Express + PostgreSQL, accounts, lists and a secured media pipeline.",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
+    "migrate": "node-pg-migrate up --migrations-dir src/db/migrations --envPath ../../.env",
+    "migrate:down": "node-pg-migrate down --migrations-dir src/db/migrations --envPath ../../.env",
+    "migrate:create": "node-pg-migrate create --migrations-dir src/db/migrations --migration-file-language sql",
+    "seed": "tsx src/db/seed.ts",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@wishlist/shared": "1.0.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.0",
+    "pg": "^8.13.1",
+    "pino": "^9.6.0",
+    "pino-http": "^10.4.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^20.17.12",
+    "@types/pg": "^8.11.10",
+    "@types/supertest": "^6.0.2",
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "node-pg-migrate": "^7.9.0",
+    "typescript-eslint": "^8.20.0",
+    "pino-pretty": "^13.0.0",
+    "supertest": "^7.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}
