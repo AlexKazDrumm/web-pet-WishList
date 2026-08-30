@@ -1,32 +1,42 @@
+import { useState } from 'react';
 import styles from './RenderGroups.module.css';
 import { formatPlayers, convertAndFormatPrices } from '../../utils/utils';
 import { fileUrl } from '../../lib/media';
 
-const WishCard = ({ wish }) => (
-  <div
-    className={styles.wish}
-    style={wish?.in_collection ? { backgroundColor: '#eef3dd' } : undefined}
-  >
-    <div className={styles.wishTitle}>{wish.title}</div>
-    <div className={styles.wishImg}>
-      {wish.cover_image ? (
-        <img src={fileUrl(wish.cover_image)} alt={wish.title || ''} loading="lazy" />
-      ) : (
-        <span className={styles.noCover}>Нет обложки</span>
-      )}
-    </div>
-    <div className={styles.players}>{formatPlayers(wish.min_players, wish.max_players)}</div>
-    <div className={styles.prices}>Цена: {convertAndFormatPrices(wish.prices)}</div>
-    {wish?.links?.map((link, index) => (
-      <div key={index} className={styles.prices}>
-        {index + 1}.{' '}
-        <a href={link} target="_blank" rel="noopener noreferrer">
-          {link}
-        </a>
+const WishCard = ({ wish }) => {
+  const [coverFailed, setCoverFailed] = useState(false);
+  const showCover = wish.cover_image && !coverFailed;
+  return (
+    <div
+      className={styles.wish}
+      style={wish?.in_collection ? { backgroundColor: '#eef3dd' } : undefined}
+    >
+      <div className={styles.wishTitle}>{wish.title}</div>
+      <div className={styles.wishImg}>
+        {showCover ? (
+          <img
+            src={fileUrl(wish.cover_image)}
+            alt={wish.title || ''}
+            loading="lazy"
+            onError={() => setCoverFailed(true)}
+          />
+        ) : (
+          <span className={styles.noCover}>Нет обложки</span>
+        )}
       </div>
-    ))}
-  </div>
-);
+      <div className={styles.players}>{formatPlayers(wish.min_players, wish.max_players)}</div>
+      <div className={styles.prices}>Цена: {convertAndFormatPrices(wish.prices)}</div>
+      {wish?.links?.map((link, index) => (
+        <div key={index} className={styles.prices}>
+          {index + 1}.{' '}
+          <a href={link} target="_blank" rel="noopener noreferrer">
+            {link}
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 const GroupBlock = ({ title, description = null, wishes }) => (
   <div className={styles.groupBlock}>

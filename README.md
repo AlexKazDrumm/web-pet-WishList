@@ -17,6 +17,14 @@
   групп и игр доступно авторизованному пользователю.
 - Состояния загрузки, ошибки и пустого списка на каждом экране; адаптивная вёрстка.
 
+## Интерфейс
+
+| | |
+| --- | --- |
+| ![Главная](docs/screenshots/01-landing.png) | ![Настолки](docs/screenshots/02-boardgames.png) |
+| ![Вишлист](docs/screenshots/03-wishlist.png) | ![Вход](docs/screenshots/04-auth.png) |
+| ![Мои списки](docs/screenshots/05-my-lists.png) | |
+
 ## Архитектура
 
 Монорепозиторий на npm workspaces:
