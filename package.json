@@ -14,7 +14,7 @@
     "dev": "concurrently -k -n backend,frontend -c blue,green \"npm:dev:backend\" \"npm:dev:frontend\"",
     "dev:backend": "npm run dev --workspace @wishlist/backend",
     "dev:frontend": "npm run dev --workspace @wishlist/frontend",
-    "build": "npm run build --workspace @wishlist/shared && npm run build --workspace @wishlist/backend && npm run build --workspace @wishlist/frontend",
+    "build": "npm run build --workspace @wishlist/backend && npm run build --workspace @wishlist/frontend",
     "start": "concurrently -k -n backend,frontend -c blue,green \"npm:start:backend\" \"npm:start:frontend\"",
     "start:backend": "npm run start --workspace @wishlist/backend",
     "start:frontend": "npm run start --workspace @wishlist/frontend",
