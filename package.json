@@ -1,0 +1,35 @@
+{
+  "name": "web-pet-wishlist",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WishList monorepo: Next.js frontend and Express/PostgreSQL backend for personal wish and board-game lists.",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n backend,frontend -c blue,green \"npm:dev:backend\" \"npm:dev:frontend\"",
+    "dev:backend": "npm run dev --workspace @wishlist/backend",
+    "dev:frontend": "npm run dev --workspace @wishlist/frontend",
+    "build": "npm run build --workspace @wishlist/shared && npm run build --workspace @wishlist/backend && npm run build --workspace @wishlist/frontend",
+    "start": "concurrently -k -n backend,frontend -c blue,green \"npm:start:backend\" \"npm:start:frontend\"",
+    "start:backend": "npm run start --workspace @wishlist/backend",
+    "start:frontend": "npm run start --workspace @wishlist/frontend",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspace @wishlist/backend && npm run test --workspace @wishlist/frontend",
+    "migrate": "npm run migrate --workspace @wishlist/backend",
+    "migrate:create": "npm run migrate:create --workspace @wishlist/backend --",
+    "seed": "npm run seed --workspace @wishlist/backend",
+    "e2e": "npm run e2e --workspace @wishlist/frontend",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down -v",
+    "audit": "npm audit --audit-level=high --workspaces --include-workspace-root"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

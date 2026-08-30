@@ -1,0 +1,43 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# env
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# build output
+dist/
+build/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# runtime data — user uploads never belong in git
+apps/backend/var/
+uploads/
+tempFiles/
+
+# tests / coverage
+coverage/
+playwright-report/
+test-results/
+.playwright/
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.pem
