@@ -1,9 +1,5 @@
 import { z } from 'zod';
 
-/**
- * Environment contract. Parsed once at startup; the process refuses to start
- * when anything required is missing or malformed. Values are never logged.
- */
 const rawSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().max(65_535).default(3031),
@@ -69,8 +65,6 @@ function loadEnv() {
         `Missing or weak secrets in production (need >= 32 chars, no default): ${missingSecrets.join(', ')}`,
       );
     }
-    // Non-production: derive a stable-per-boot development secret so local work
-    // does not require ceremony, while never shipping a hardcoded value.
     for (const name of missingSecrets) {
       env[name] = `dev-only-${name}-${'x'.repeat(40)}`;
     }

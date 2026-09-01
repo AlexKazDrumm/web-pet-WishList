@@ -126,8 +126,7 @@ async function seed(): Promise<void> {
       logger.info({ groups: GROUPS.length, games: GAMES.length }, 'catalog seed inserted');
     }
 
-    // Create the demo account and starter lists only once. Re-running the seed
-    // must never reset data created through the demo account.
+    // Keep existing demo-account data unchanged.
     const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 12);
     const { rows: insertedUsers } = await client.query<{ id: string }>(
       `INSERT INTO users (email, password_hash, display_name)

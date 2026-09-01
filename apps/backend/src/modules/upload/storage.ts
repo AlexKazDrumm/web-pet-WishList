@@ -6,20 +6,15 @@ import { logger } from '../../lib/logger';
 
 const env = getEnv();
 
-/** Absolute upload root. Created on first use. */
 export const uploadRoot = path.resolve(env.UPLOAD_DIR);
 
 export async function ensureUploadRoot(): Promise<void> {
   await mkdir(uploadRoot, { recursive: true });
 }
 
-/** Accepts legacy numeric names and new `<uuid>.<ext>` names; nothing else. */
 const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9_-]{0,99}\.(jpg|jpeg|png|webp|pdf)$/;
 
-/**
- * Resolve a stored-file id to an absolute path that is provably inside
- * `uploadRoot`. Returns null for anything that escapes or is malformed.
- */
+/** Returns a validated path inside `uploadRoot`. */
 export function resolveStoredPath(id: string): string | null {
   if (typeof id !== 'string' || !ID_PATTERN.test(id)) return null;
   if (id.includes('..') || id.includes('/') || id.includes('\\') || id.includes('\0')) return null;

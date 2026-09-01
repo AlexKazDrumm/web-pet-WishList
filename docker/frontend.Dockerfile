@@ -1,4 +1,3 @@
-# Build context is the repository root.
 # syntax=docker/dockerfile:1
 
 FROM node:24-alpine AS build
