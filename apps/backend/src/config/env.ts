@@ -8,6 +8,21 @@ const rawSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().max(65_535).default(3031),
 
+  TRUST_PROXY: z
+    .string()
+    .default('false')
+    .transform((value, ctx) => {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'false') return false;
+      if (normalized === 'true') return true;
+      if (/^\d+$/.test(normalized)) return Number(normalized);
+      ctx.addIssue({
+        code: 'custom',
+        message: 'TRUST_PROXY must be false, true, or a non-negative hop count',
+      });
+      return z.NEVER;
+    }),
+
   DATABASE_URL: z.string().min(1, 'DATABASE_URL is required'),
 
   CORS_ORIGINS: z

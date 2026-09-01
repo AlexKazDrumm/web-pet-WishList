@@ -35,6 +35,11 @@
 .closeBtn{
 	margin-right: 15px;
 	cursor: pointer;
+	background: none;
+	border: 0;
+	color: #285471;
+	font-size: 16px;
+	padding: 4px;
 }
 
 .modalContent {

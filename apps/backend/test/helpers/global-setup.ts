@@ -22,7 +22,8 @@ export default async function setup(): Promise<void> {
   } catch (err) {
     throw new Error(
       `Cannot reach the test database at ${databaseUrl.replace(/:\/\/[^@]*@/, '://***@')}. ` +
-        `Start PostgreSQL and create the database, or set TEST_DATABASE_URL. Cause: ${(err as Error).message}`,
+        'Start PostgreSQL and create the database, or set TEST_DATABASE_URL.',
+      { cause: err },
     );
   }
 

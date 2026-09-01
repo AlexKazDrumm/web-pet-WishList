@@ -52,7 +52,7 @@ test('register, build a list, manage items and upload a cover', async ({ page })
   await expect(page.getByText('Элемент обновлён')).toBeVisible();
 
   // Delete it.
-  await page.getByRole('button', { name: '×' }).click();
+  await page.getByRole('button', { name: 'Удалить E2E предмет обновлён' }).click();
   await expect(page.getByTestId('list-item')).toHaveCount(0);
   await expect(page.getByText('Список пуст')).toBeVisible();
 });

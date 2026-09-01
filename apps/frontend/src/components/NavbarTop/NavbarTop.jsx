@@ -3,7 +3,7 @@ import NavLink from '../UI/NavLink/NavLink';
 
 const NavbarTop = ({ selectedBlock, setSelectedBlock, showMyLists }) => {
   return (
-    <div className={styles.container}>
+    <nav className={styles.container} aria-label="Основные разделы">
       <div className={styles.links}>
         <NavLink
           label="Главная"
@@ -50,7 +50,7 @@ const NavbarTop = ({ selectedBlock, setSelectedBlock, showMyLists }) => {
           />
         )}
       </div>
-    </div>
+    </nav>
   );
 };
 

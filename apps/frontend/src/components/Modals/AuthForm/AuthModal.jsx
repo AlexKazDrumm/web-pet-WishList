@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './AuthModal.module.css';
 import { useSession } from '../../../lib/session';
 import { useNotifications } from '../../../lib/notifications';
@@ -13,6 +13,24 @@ const AuthModal = ({ open, onClose, onDone }) => {
   const [displayName, setDisplayName] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const previouslyFocused = document.activeElement;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') onClose?.();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const firstInput = /** @type {HTMLInputElement | null} */ (
+      dialogRef.current?.querySelector('input') ?? null
+    );
+    firstInput?.focus();
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
+    };
+  }, [open, onClose]);
 
   if (!open) return null;
 
@@ -52,12 +70,12 @@ const AuthModal = ({ open, onClose, onDone }) => {
 
   return (
     <>
-      <div className={styles.modalBackground} onClick={close} />
-      <div className={styles.container} role="dialog" aria-modal="true" aria-label="Вход в аккаунт">
+      <div className={styles.modalBackground} aria-hidden="true" onClick={close} />
+      <div ref={dialogRef} className={styles.container} role="dialog" aria-modal="true" aria-label="Вход в аккаунт">
         <div className={styles.closeBtnRow}>
-          <span className={styles.closeBtn} onClick={close}>
-            X
-          </span>
+          <button type="button" className={styles.closeBtn} aria-label="Закрыть" onClick={close}>
+            ×
+          </button>
         </div>
         <div className={styles.tabs}>
           <button
@@ -96,6 +114,8 @@ const AuthModal = ({ open, onClose, onDone }) => {
           {mode === 'register' && (
             <input
               type="text"
+              autoComplete="name"
+              aria-label="Имя"
               placeholder="Имя (необязательно)"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}

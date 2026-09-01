@@ -55,7 +55,7 @@ export default function MainPage() {
         setSelectedBlock={setSelectedBlock}
         showMyLists={isAuthenticated}
       />
-      {renderSelectedBlock()}
+      <main>{renderSelectedBlock()}</main>
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} onDone={() => setSelectedBlock(MY_LISTS_BLOCK)} />
     </div>
   );

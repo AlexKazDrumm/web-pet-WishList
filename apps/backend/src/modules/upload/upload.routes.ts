@@ -32,7 +32,8 @@ const CONTENT_TYPE: Record<string, string> = {
 uploadRouter.get(
   '/files/:id',
   asyncHandler(async (req, res) => {
-    const id = req.params.id ?? '';
+    const rawId = req.params.id;
+    const id = Array.isArray(rawId) ? rawId[0] ?? '' : rawId ?? '';
     const stored = await statStored(id);
     if (!stored) throw HttpError.notFound('File not found');
 

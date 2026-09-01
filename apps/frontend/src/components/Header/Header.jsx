@@ -14,8 +14,15 @@ const Header = ({ onRequestAuth }) => {
     const onClick = (event) => {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) setMenuOpen(false);
     };
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
     document.addEventListener('mousedown', onClick);
-    return () => document.removeEventListener('mousedown', onClick);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('keydown', onKeyDown);
+    };
   }, [menuOpen]);
 
   const handleSignOut = async () => {
@@ -25,23 +32,29 @@ const Header = ({ onRequestAuth }) => {
   };
 
   return (
-    <div className={styles.component}>
-      <img src="/images/numbers2.png" alt="MyWishList" />
+    <header className={styles.component}>
+      <img src="/images/numbers2.png" alt="WishList" />
 
       <div className={styles.userArea} ref={wrapperRef}>
         {status === 'loading' ? (
           <span className={styles.userHint}>…</span>
         ) : isAuthenticated ? (
           <div className={styles.imageWrapper}>
-            <button type="button" className={styles.userButton} onClick={() => setMenuOpen((v) => !v)}>
+            <button
+              type="button"
+              className={styles.userButton}
+              aria-expanded={menuOpen}
+              aria-haspopup="menu"
+              onClick={() => setMenuOpen((v) => !v)}
+            >
               {user?.displayName || user?.email}
             </button>
             {menuOpen && (
-              <div className={styles.dropdownMenu}>
+              <div className={styles.dropdownMenu} role="menu">
                 <div className={styles.arrow} />
                 <div className={styles.list}>
                   <span className={styles.userHint}>{user?.email}</span>
-                  <button type="button" className={styles.link} onClick={handleSignOut}>
+                  <button type="button" role="menuitem" className={styles.link} onClick={handleSignOut}>
                     Выйти
                   </button>
                 </div>
@@ -54,7 +67,7 @@ const Header = ({ onRequestAuth }) => {
           </button>
         )}
       </div>
-    </div>
+    </header>
   );
 };
 

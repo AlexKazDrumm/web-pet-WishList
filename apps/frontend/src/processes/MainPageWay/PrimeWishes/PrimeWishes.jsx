@@ -18,7 +18,7 @@ const PrimeWishes = () => {
   const { selectedGroup, sortKey, handleGroupChange, handleSortChange } = useSelectionHandlers('all', 'title');
   const [groups, setGroups] = useState([]);
   const [games, setGames] = useState([]);
-  const [state, setState] = useState('loading'); // loading | error | ready
+  const [state, setState] = useState('loading');
   const [message, setMessage] = useState('');
 
   const load = useCallback(async () => {
@@ -66,14 +66,14 @@ const PrimeWishes = () => {
   return (
     <div className={styles.component}>
       <div className={styles.filters}>
-        <select onChange={handleGroupChange} value={selectedGroup}>
+        <select aria-label="Группа желаний" onChange={handleGroupChange} value={selectedGroup}>
           {groupOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </select>
-        <select onChange={handleSortChange} value={sortKey}>
+        <select aria-label="Сортировка желаний" onChange={handleSortChange} value={sortKey}>
           {sortOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

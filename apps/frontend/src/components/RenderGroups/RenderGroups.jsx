@@ -7,11 +7,11 @@ const WishCard = ({ wish }) => {
   const [coverFailed, setCoverFailed] = useState(false);
   const showCover = wish.cover_image && !coverFailed;
   return (
-    <div
+    <article
       className={styles.wish}
       style={wish?.in_collection ? { backgroundColor: '#eef3dd' } : undefined}
     >
-      <div className={styles.wishTitle}>{wish.title}</div>
+      <h3 className={styles.wishTitle}>{wish.title}</h3>
       <div className={styles.wishImg}>
         {showCover ? (
           <img
@@ -25,31 +25,40 @@ const WishCard = ({ wish }) => {
         )}
       </div>
       <div className={styles.players}>{formatPlayers(wish.min_players, wish.max_players)}</div>
-      <div className={styles.prices}>Цена: {convertAndFormatPrices(wish.prices)}</div>
+      <div className={styles.prices} title="Ориентировочный пересчёт в тенге по справочному курсу">
+        Цена: {convertAndFormatPrices(wish.prices)}
+      </div>
+      {wish.instruction && (
+        <div className={styles.prices}>
+          <a href={fileUrl(wish.instruction)} target="_blank" rel="noopener noreferrer">
+            Правила игры
+          </a>
+        </div>
+      )}
       {wish?.links?.map((link, index) => (
-        <div key={index} className={styles.prices}>
+        <div key={`${link}-${index}`} className={styles.prices}>
           {index + 1}.{' '}
           <a href={link} target="_blank" rel="noopener noreferrer">
             {link}
           </a>
         </div>
       ))}
-    </div>
+    </article>
   );
 };
 
 const GroupBlock = ({ title, description = null, wishes }) => (
-  <div className={styles.groupBlock}>
-    <div className={styles.groupTitle}>
+  <section className={styles.groupBlock}>
+    <h2 className={styles.groupTitle}>
       {title} ({wishes.length})
-    </div>
+    </h2>
     {description && <div className={styles.groupDescription}>{description}</div>}
     <div className={styles.wishesBlock}>
       {wishes.map((wish) => (
         <WishCard key={wish.id} wish={wish} />
       ))}
     </div>
-  </div>
+  </section>
 );
 
 const RenderGroups = ({ groups, wishes, selectedGroup }) => {

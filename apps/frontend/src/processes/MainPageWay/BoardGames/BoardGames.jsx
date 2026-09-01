@@ -78,14 +78,14 @@ const BoardGames = ({ onRequestAuth }) => {
 
   const filterBar = (
     <div className={styles.filters}>
-      <select onChange={handleGroupChange} value={selectedGroup}>
+      <select aria-label="Группа игр" onChange={handleGroupChange} value={selectedGroup}>
         {groupOptions.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}
       </select>
-      <select onChange={handleSortChange} value={sortKey}>
+      <select aria-label="Сортировка игр" onChange={handleSortChange} value={sortKey}>
         {sortOptions.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -94,6 +94,7 @@ const BoardGames = ({ onRequestAuth }) => {
       </select>
       <input
         type="text"
+        aria-label="Поиск игр"
         placeholder="Поиск по названию"
         value={searchQuery}
         onChange={(event) => setSearchQuery(event.target.value)}

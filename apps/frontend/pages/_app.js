@@ -9,9 +9,11 @@ export default function App({ Component, pageProps }) {
     <NotificationsProvider>
       <SessionProvider>
         <Head>
-          <title>MyWishList</title>
+          <title>WishList</title>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="description" content="Личные списки желаний и настольных игр" />
+          <meta name="theme-color" content="#343b47" />
+          <link rel="icon" href="/svg/fire_blue.svg" type="image/svg+xml" />
         </Head>
         <Notifier />
         <Component {...pageProps} />

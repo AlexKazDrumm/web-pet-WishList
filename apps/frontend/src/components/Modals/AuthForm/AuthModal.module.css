@@ -35,6 +35,9 @@
 	cursor: pointer;
 	font-size: 14px;
 	color: #285471;
+	background: none;
+	border: 0;
+	padding: 4px;
 }
 
 .tabs {

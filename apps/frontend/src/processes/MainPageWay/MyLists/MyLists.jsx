@@ -23,7 +23,7 @@ export default function MyLists({ onRequestAuth }) {
   const [lists, setLists] = useState([]);
   const [activeId, setActiveId] = useState(null);
   const [items, setItems] = useState([]);
-  const [listState, setListState] = useState('idle'); // idle | loading | error | ready
+  const [listState, setListState] = useState('idle');
   const [itemsState, setItemsState] = useState('idle');
   const [newList, setNewList] = useState({ title: '', section: 'wishlist', description: '' });
   const [newItem, setNewItem] = useState(emptyItem);
@@ -196,11 +196,15 @@ export default function MyLists({ onRequestAuth }) {
         <aside className={styles.sidebar}>
           <form className={styles.newList} onSubmit={createList}>
             <input
+              aria-label="Название нового списка"
               placeholder="Название списка"
+              required
+              maxLength={120}
               value={newList.title}
               onChange={(e) => setNewList({ ...newList, title: e.target.value })}
             />
             <select
+              aria-label="Раздел списка"
               value={newList.section}
               onChange={(e) => setNewList({ ...newList, section: e.target.value })}
             >
@@ -253,23 +257,33 @@ export default function MyLists({ onRequestAuth }) {
 
               <form className={styles.newItem} onSubmit={addItem}>
                 <input
+                  aria-label="Название нового элемента"
                   placeholder="Что добавить?"
+                  required
+                  maxLength={200}
                   value={newItem.title}
                   onChange={(e) => setNewItem({ ...newItem, title: e.target.value })}
                 />
                 <input
+                  type="url"
+                  aria-label="Ссылка на элемент"
                   placeholder="Ссылка (необязательно)"
+                  maxLength={2000}
                   value={newItem.link}
                   onChange={(e) => setNewItem({ ...newItem, link: e.target.value })}
                 />
                 <input
                   type="number"
+                  aria-label="Цена элемента"
                   min="0"
+                  max="1000000000"
+                  step="0.01"
                   placeholder="Цена"
                   value={newItem.priceAmount}
                   onChange={(e) => setNewItem({ ...newItem, priceAmount: e.target.value })}
                 />
                 <input
+                  aria-label="Валюта цены"
                   placeholder="Валюта"
                   maxLength={8}
                   value={newItem.priceCurrency}
@@ -277,7 +291,8 @@ export default function MyLists({ onRequestAuth }) {
                 />
                 <input
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,application/pdf"
+                  aria-label="Обложка элемента"
+                  accept="image/jpeg,image/png,image/webp"
                   onChange={(e) => setNewItem({ ...newItem, file: e.target.files?.[0] || null })}
                 />
                 <button type="submit" disabled={savingItem}>
@@ -311,6 +326,7 @@ export default function MyLists({ onRequestAuth }) {
                       key={`${item.id}:${item.title}`}
                       data-testid="item-title"
                       className={styles.itemTitle}
+                      aria-label={`Название: ${item.title}`}
                       defaultValue={item.title}
                       onBlur={(e) => renameItem(item, e.target.value)}
                     />
@@ -324,7 +340,12 @@ export default function MyLists({ onRequestAuth }) {
                         ссылка
                       </a>
                     )}
-                    <button type="button" className={styles.removeBtn} onClick={() => removeItem(item)}>
+                    <button
+                      type="button"
+                      className={styles.removeBtn}
+                      aria-label={`Удалить ${item.title}`}
+                      onClick={() => removeItem(item)}
+                    >
                       ×
                     </button>
                   </li>

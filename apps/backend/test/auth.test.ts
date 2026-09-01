@@ -60,6 +60,17 @@ describe('auth', () => {
     expect(next.status).toBe(200);
   });
 
+  it('allows only one concurrent refresh for a single-use token', async () => {
+    const { tokens } = await registerUser('concurrent-refresh@example.com');
+
+    const responses = await Promise.all([
+      api().post('/auth/refresh').send({ refreshToken: tokens.refreshToken }),
+      api().post('/auth/refresh').send({ refreshToken: tokens.refreshToken }),
+    ]);
+
+    expect(responses.map((response) => response.status).sort()).toEqual([200, 401]);
+  });
+
   it('logout revokes the refresh token', async () => {
     const { tokens } = await registerUser('logout@example.com');
     expect((await api().post('/auth/logout').send({ refreshToken: tokens.refreshToken })).status).toBe(204);

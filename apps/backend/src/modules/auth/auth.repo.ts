@@ -43,10 +43,12 @@ export async function storeRefreshToken(input: {
   );
 }
 
-export async function findActiveRefreshToken(tokenHash: string): Promise<{ user_id: string } | null> {
+export async function consumeActiveRefreshToken(tokenHash: string): Promise<{ user_id: string } | null> {
   const { rows } = await query<{ user_id: string }>(
-    `SELECT user_id FROM refresh_tokens
-     WHERE token_hash = $1 AND revoked_at IS NULL AND expires_at > now()`,
+    `UPDATE refresh_tokens
+     SET revoked_at = now()
+     WHERE token_hash = $1 AND revoked_at IS NULL AND expires_at > now()
+     RETURNING user_id`,
     [tokenHash],
   );
   return rows[0] ?? null;

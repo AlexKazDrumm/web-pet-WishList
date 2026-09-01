@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ROUTES } from '@wishlist/shared';
 import styles from './CreateBoardGameForm.module.css';
 import { api, errorMessage } from '../../../lib/api';
@@ -19,6 +19,23 @@ const CreateBoardGameForm = ({ groups = [], onClose, onCreated }) => {
   const [instruction, setInstruction] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const dialogRef = useRef(null);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') onClose?.();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    const firstInput = /** @type {HTMLInputElement | null} */ (
+      dialogRef.current?.querySelector('input') ?? null
+    );
+    firstInput?.focus();
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
+    };
+  }, [onClose]);
 
   const update = (patch) => setForm((current) => ({ ...current, ...patch }));
 
@@ -57,16 +74,19 @@ const CreateBoardGameForm = ({ groups = [], onClose, onCreated }) => {
 
   return (
     <>
-      <div className={styles.modalBackground} onClick={onClose} />
-      <div className={styles.container} role="dialog" aria-modal="true" aria-label="Новая игра">
+      <div className={styles.modalBackground} aria-hidden="true" onClick={onClose} />
+      <div ref={dialogRef} className={styles.container} role="dialog" aria-modal="true" aria-label="Новая игра">
         <div className={styles.closeBtnRow}>
-          <span className={styles.closeBtn} onClick={onClose}>
-            X
-          </span>
+          <button type="button" className={styles.closeBtn} aria-label="Закрыть" onClick={onClose}>
+            ×
+          </button>
         </div>
         <form onSubmit={submit} className={styles.modalContent}>
           <input
             type="text"
+            required
+            maxLength={300}
+            aria-label="Название игры"
             value={form.title}
             onChange={(e) => update({ title: e.target.value })}
             placeholder="Название"
@@ -87,7 +107,7 @@ const CreateBoardGameForm = ({ groups = [], onClose, onCreated }) => {
             />{' '}
             В вишлисте
           </label>
-          <select value={form.groupId} onChange={(e) => update({ groupId: e.target.value })}>
+          <select aria-label="Группа" value={form.groupId} onChange={(e) => update({ groupId: e.target.value })}>
             <option value="">Выберите группу</option>
             {groups.map((group) => (
               <option key={group.id} value={group.id}>
@@ -98,6 +118,8 @@ const CreateBoardGameForm = ({ groups = [], onClose, onCreated }) => {
           <input
             type="number"
             min="0"
+            max="999"
+            aria-label="Минимум игроков"
             value={form.minPlayers}
             onChange={(e) => update({ minPlayers: e.target.value })}
             placeholder="Игроков от"
@@ -105,12 +127,16 @@ const CreateBoardGameForm = ({ groups = [], onClose, onCreated }) => {
           <input
             type="number"
             min="0"
+            max="999"
+            aria-label="Максимум игроков"
             value={form.maxPlayers}
             onChange={(e) => update({ maxPlayers: e.target.value })}
             placeholder="Игроков до"
           />
           <input
-            type="text"
+            type="url"
+            maxLength={2000}
+            aria-label="Ссылка на видео"
             value={form.video}
             onChange={(e) => update({ video: e.target.value })}
             placeholder="Ссылка на видео"

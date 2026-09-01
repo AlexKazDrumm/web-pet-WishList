@@ -15,7 +15,7 @@ const candidates = [
 
 for (const file of candidates) {
   if (existsSync(file)) {
-    dotenv.config({ path: file });
+    dotenv.config({ path: file, quiet: true });
     break;
   }
 }

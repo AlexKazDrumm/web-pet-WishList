@@ -1,10 +1,6 @@
 .component {
     background-color: rgb(52, 59, 71);
-    /* background-image: url('/images/titleBanner2.jpg'); */
-    background-position: center;
-    background-size: 100% auto;
     height: 120px;
-    /* overflow: hidden; */
     padding: 15px 60px 15px 60px;
     display: flex;
     flex-direction: row;

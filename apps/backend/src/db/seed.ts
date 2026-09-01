@@ -126,35 +126,45 @@ async function seed(): Promise<void> {
       logger.info({ groups: GROUPS.length, games: GAMES.length }, 'catalog seed inserted');
     }
 
-    // Demo account with two lists.
+    // Create the demo account and starter lists only once. Re-running the seed
+    // must never reset data created through the demo account.
     const passwordHash = await bcrypt.hash(DEMO_PASSWORD, 12);
-    const { rows: userRows } = await client.query<{ id: string }>(
+    const { rows: insertedUsers } = await client.query<{ id: string }>(
       `INSERT INTO users (email, password_hash, display_name)
        VALUES ($1, $2, $3)
-       ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash
+       ON CONFLICT (email) DO NOTHING
        RETURNING id`,
       [DEMO_EMAIL, passwordHash, 'Demo'],
     );
-    const userId = userRows[0]!.id;
+    const userId =
+      insertedUsers[0]?.id ??
+      (
+        await client.query<{ id: string }>('SELECT id FROM users WHERE email = $1', [DEMO_EMAIL])
+      ).rows[0]!.id;
 
-    await client.query('DELETE FROM lists WHERE user_id = $1', [userId]);
-
-    const { rows: listRows } = await client.query<{ id: string }>(
-      `INSERT INTO lists (user_id, title, description, section) VALUES
-         ($1, 'День рождения', 'Идеи подарков на ближайший праздник', 'wishlist'),
-         ($1, 'Настолки в коллекции', 'То, что уже стоит на полке', 'boardgames')
-       RETURNING id`,
+    const { rows: listCountRows } = await client.query<{ count: string }>(
+      'SELECT count(*)::text AS count FROM lists WHERE user_id = $1',
       [userId],
     );
 
-    await client.query(
-      `INSERT INTO list_items (list_id, title, notes, link, price_amount, price_currency, position) VALUES
-         ($1, 'Наушники с шумоподавлением', 'Любой удобный форм-фактор', 'https://example.com/headphones', 89900, 'tg', 0),
-         ($1, 'Книга по типографике', NULL, 'https://example.com/book', 12000, 'tg', 1),
-         ($2, 'Лисьи тропы', 'Уже открыта, играем часто', NULL, NULL, NULL, 0),
-         ($2, 'Дуэль архивариусов', NULL, NULL, NULL, NULL, 1)`,
-      [listRows[0]!.id, listRows[1]!.id],
-    );
+    if (Number(listCountRows[0]?.count ?? '0') === 0) {
+      const { rows: listRows } = await client.query<{ id: string }>(
+        `INSERT INTO lists (user_id, title, description, section) VALUES
+           ($1, 'День рождения', 'Идеи подарков на ближайший праздник', 'wishlist'),
+           ($1, 'Настолки в коллекции', 'То, что уже стоит на полке', 'boardgames')
+         RETURNING id`,
+        [userId],
+      );
+
+      await client.query(
+        `INSERT INTO list_items (list_id, title, notes, link, price_amount, price_currency, position) VALUES
+           ($1, 'Наушники с шумоподавлением', 'Любой удобный форм-фактор', 'https://example.com/headphones', 89900, 'tg', 0),
+           ($1, 'Книга по типографике', NULL, 'https://example.com/book', 12000, 'tg', 1),
+           ($2, 'Лисьи тропы', 'Уже открыта, играем часто', NULL, NULL, NULL, 0),
+           ($2, 'Дуэль архивариусов', NULL, NULL, NULL, NULL, 1)`,
+        [listRows[0]!.id, listRows[1]!.id],
+      );
+    }
 
     logger.info({ email: DEMO_EMAIL }, 'demo account ready');
   });

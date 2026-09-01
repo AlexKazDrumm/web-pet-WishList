@@ -48,6 +48,11 @@ button {
     font-family: inherit;
 }
 
+:focus-visible {
+    outline: 3px solid #059fdc;
+    outline-offset: 2px;
+}
+
 img {
     max-width: 100%;
 }

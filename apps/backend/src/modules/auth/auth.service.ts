@@ -40,11 +40,19 @@ export async function register(input: RegisterInput) {
   if (existing) throw HttpError.conflict('An account with this email already exists');
 
   const passwordHash = await bcrypt.hash(input.password, BCRYPT_ROUNDS);
-  const row = await repo.insertUser({
-    email: input.email,
-    passwordHash,
-    displayName: input.displayName ?? null,
-  });
+  let row: repo.UserRow;
+  try {
+    row = await repo.insertUser({
+      email: input.email,
+      passwordHash,
+      displayName: input.displayName ?? null,
+    });
+  } catch (err) {
+    if (err && typeof err === 'object' && 'code' in err && err.code === '23505') {
+      throw HttpError.conflict('An account with this email already exists');
+    }
+    throw err;
+  }
   return issueSession(row);
 }
 
@@ -60,15 +68,13 @@ export async function login(input: LoginInput) {
 export async function refresh(refreshToken: string) {
   const { sub } = verifyRefreshToken(refreshToken);
   const tokenHash = hashToken(refreshToken);
-  const active = await repo.findActiveRefreshToken(tokenHash);
+  const active = await repo.consumeActiveRefreshToken(tokenHash);
   if (!active || active.user_id !== sub) {
     throw HttpError.unauthorized('Refresh token is no longer valid');
   }
   const row = await repo.findUserById(sub);
   if (!row) throw HttpError.unauthorized('Account not found');
 
-  // Rotate: the presented token is single-use.
-  await repo.revokeRefreshToken(tokenHash);
   return issueSession(row);
 }
 
