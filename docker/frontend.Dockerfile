@@ -1,7 +1,7 @@
 # Build context is the repository root.
 # syntax=docker/dockerfile:1
 
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /repo
 ARG NEXT_PUBLIC_API_BASE_URL=http://localhost:3031
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
@@ -15,7 +15,7 @@ COPY packages/shared ./packages/shared
 COPY apps/frontend ./apps/frontend
 RUN npm run build --workspace @wishlist/frontend
 
-FROM node:20-alpine AS runtime
+FROM node:24-alpine AS runtime
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app

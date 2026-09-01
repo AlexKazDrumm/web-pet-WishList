@@ -6,7 +6,7 @@ npm run migrate:prod
 
 if [ "${RUN_SEED}" = "true" ]; then
   echo "Seeding database…"
-  node dist/db/seed.js || echo "seed step reported a non-zero status, continuing"
+  node dist/db/seed.js
 fi
 
 echo "Starting API…"

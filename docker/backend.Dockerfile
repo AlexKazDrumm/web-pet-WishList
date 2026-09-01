@@ -1,7 +1,7 @@
 # Build context is the repository root.
 # syntax=docker/dockerfile:1
 
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /repo
 COPY package.json package-lock.json ./
 COPY packages/shared/package.json ./packages/shared/
@@ -14,7 +14,7 @@ COPY apps/backend ./apps/backend
 RUN npm run build --workspace @wishlist/backend \
   && npm prune --omit=dev
 
-FROM node:20-alpine AS runtime
+FROM node:24-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /repo/apps/backend
 RUN addgroup -S app && adduser -S app -G app

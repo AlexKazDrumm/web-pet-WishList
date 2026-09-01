@@ -46,7 +46,7 @@ Frontend обращается к API через один экземпляр axio
 
 ## Стек
 
-- Backend: Node.js 20, Express, TypeScript, PostgreSQL (`pg`), `node-pg-migrate`, `zod`, `helmet`,
+- Backend: Node.js 24, Express, TypeScript, PostgreSQL (`pg`), `node-pg-migrate`, `zod`, `helmet`,
   `express-rate-limit`, `jsonwebtoken`, `bcryptjs`, `pino`.
 - Frontend: Next.js 16, React 19, CSS‑модули, axios. Проверка типов — `tsc --checkJs`.
 - Тесты: Vitest и Supertest (backend), Vitest и Testing Library (frontend), Playwright (сквозной сценарий).
@@ -61,6 +61,7 @@ Frontend обращается к API через один экземпляр axio
 | `DATABASE_URL` | строка подключения к PostgreSQL |
 | `NODE_ENV` | `development`, `test` или `production` |
 | `PORT` | порт API (по умолчанию 3031) |
+| `TRUST_PROXY` | доверие reverse proxy: `false`, `true` или точное число промежуточных узлов |
 | `CORS_ORIGINS` | список разрешённых origin через запятую, без подстановочных знаков |
 | `JWT_ACCESS_SECRET` | секрет для access‑токенов; в production обязателен и без значения по умолчанию |
 | `JWT_REFRESH_SECRET` | секрет для refresh‑токенов; требования те же |
@@ -70,7 +71,7 @@ Frontend обращается к API через один экземпляр axio
 | `LOG_LEVEL` | уровень логирования |
 | `NEXT_PUBLIC_API_BASE_URL` | базовый URL API для браузера |
 | `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` | параметры БД, поднимаемой Docker Compose |
-| `RUN_SEED` | `true` — прогнать seed при старте контейнера backend |
+| `RUN_SEED` | `true` — идемпотентно прогнать seed при старте контейнера backend |
 
 Сгенерировать секрет:
 
@@ -91,11 +92,12 @@ npm run migrate:create -- <name>   # создать новый файл мигр
 ```
 
 Seed добавляет небольшой каталог и демоаккаунт `demo@wishlist.local` с паролем `demo-passphrase-123`
-и двумя списками.
+и двумя списками. Повторный запуск не перезаписывает существующий каталог, пароль или пользовательские
+списки.
 
 ## Запуск
 
-Требуются Node.js 20+, npm 10+ и PostgreSQL (или Docker).
+Требуются Node.js 24, npm 11+ и PostgreSQL (или Docker).
 
 ### Локально
 
@@ -112,7 +114,8 @@ npm run dev               # backend на :3031, frontend на :3000
 ```bash
 cp .env.example .env      # задать JWT_ACCESS_SECRET и JWT_REFRESH_SECRET
 npm run docker:up         # db + backend (с миграциями и seed) + frontend
-npm run docker:down       # остановить и удалить тома
+npm run docker:down       # остановить контейнеры, сохранив тома с данными
+npm run docker:reset      # удалить контейнеры и тома; все Docker-данные будут потеряны
 ```
 
 После старта: интерфейс — http://localhost:3000, API — http://localhost:3031, проверка состояния —
@@ -140,6 +143,10 @@ CI выполняет установку, аудит зависимостей, �
 `UPLOAD_DIR`, попытки выхода за пределы каталога отклоняются. Ссылки на публикацию произвольного пути
 нет.
 
+Существующий каталог можно подключить напрямую через `DATABASE_URL`, а соответствующее файловое
+хранилище — через `UPLOAD_DIR`. Сами рабочие данные, `.env` и каталог `apps/backend/var` намеренно
+игнорируются Git и не входят в публичный репозиторий.
+
 ## API
 
 | Метод и путь | Назначение |
@@ -151,3 +158,7 @@ CI выполняет установку, аудит зависимостей, �
 | `GET /catalog/sections`, `/catalog/wish-types`, `/catalog/groups`, `/catalog/games` | витрина каталога |
 | `POST /catalog/groups`, `POST /catalog/games` | добавление групп и игр (требуется вход) |
 | `POST /uploads`, `GET /files/:id` | загрузка и раздача файлов |
+
+## Лицензия
+
+Лицензия на повторное использование кода и материалов не предоставлена.

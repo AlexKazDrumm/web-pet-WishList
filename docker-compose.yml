@@ -29,6 +29,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3031
+      TRUST_PROXY: ${TRUST_PROXY:-false}
       DATABASE_URL: postgres://${POSTGRES_USER:-wishlist}:${POSTGRES_PASSWORD:-wishlist}@db:5432/${POSTGRES_DB:-wishlist}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
       JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?set JWT_ACCESS_SECRET in .env}
@@ -64,6 +65,11 @@ services:
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:3031}
     ports:
       - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/ >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
 volumes:
   pgdata:

@@ -4,7 +4,7 @@
   "private": true,
   "description": "WishList monorepo: Next.js frontend and Express/PostgreSQL backend for personal wish and board-game lists.",
   "engines": {
-    "node": ">=20.11"
+    "node": ">=24 <25"
   },
   "workspaces": [
     "packages/*",
@@ -26,11 +26,12 @@
     "seed": "npm run seed --workspace @wishlist/backend",
     "e2e": "npm run e2e --workspace @wishlist/frontend",
     "docker:up": "docker compose up --build",
-    "docker:down": "docker compose down -v",
+    "docker:down": "docker compose down",
+    "docker:reset": "docker compose down -v",
     "audit": "npm audit --audit-level=high --workspaces --include-workspace-root"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^10.0.5"
   },
   "overrides": {
     "react": "19.2.8",
